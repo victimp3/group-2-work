@@ -14,6 +14,8 @@
     rect { stroke: #152333; }
     button { font: inherit; padding: 8px; }
     #network { font-weight: bold; }
+    #next-action { border-left: 4px solid #1461bb; padding: 12px; background: #edf4fc; }
+    button:focus-visible { outline: 3px solid #1461bb; outline-offset: 3px; }
   </style>
 </head>
 <body>
@@ -24,6 +26,8 @@
     <h2>Group 2 · Ticket guidance</h2>
     <p id="reader" role="status"></p>
     <p id="guide" role="status">Scan a ticket.</p>
+    <h3>Next step</h3>
+    <p id="next-action">Wait for the host connection before scanning.</p>
     <svg viewBox="0 0 560 340" aria-label="Hall with rows A to C and a centre aisle">
       <rect x="100" y="10" width="360" height="30" fill="#ccd6e0" />
       <text x="245" y="32">SCREEN</text>
@@ -63,6 +67,8 @@
     // Do not compare the laptop's time with the Pi's time: clocks may differ.
     let latestTicketTime = null;
     let clearedTicketTime = null;
+    let currentState = null;
+    let hostAvailable = false;
 
     function removeRoute() {
       document.getElementById('route').setAttribute('d', '');
@@ -74,8 +80,11 @@
 
     function clearTicket() {
       clearedTicketTime = latestTicketTime;
-      document.getElementById('guide').textContent = 'Scan a ticket.';
-      removeRoute();
+      if (hostAvailable && currentState !== null) {
+        showTicket(currentState);
+      } else {
+        showHostError();
+      }
     }
     // Run our function WHEN the user clicks, not immediately on page load.
     document.getElementById('clear-ticket').addEventListener('click', clearTicket);
@@ -96,14 +105,20 @@
     }
 
     function showTicket(state) {
+      currentState = state;
+      hostAvailable = true;
       removeRoute(); // Never retain the previous visitor's destination.
-      let message = 'Scan a ticket.';
+      let message = 'Ticket scanning is unavailable.';
       let readerMessage = 'Reader offline / unknown';
+      let nextAction = 'Ask an organiser to check Arduino power and its connection to IFI7386-G2. Scan again when the reader is online.';
       if (state.reader.online) {
         if (state.reader.ready) {
           readerMessage = 'Reader initialised; scan a card to check.';
+          message = 'Ready for a ticket.';
+          nextAction = 'Hold one ticket card near the reader. Remove it before scanning again.';
         } else {
           readerMessage = 'Reader error reported';
+          nextAction = 'Ask an organiser to check the reader and restart it. Try your ticket again when it is ready.';
         }
       }
       document.getElementById('reader').textContent = readerMessage;
@@ -113,19 +128,24 @@
         if (state.ticket.at !== clearedTicketTime && state.reader.online && state.reader.ready) {
           if (state.ticket.known) {
             message = 'Seat ' + state.ticket.seat + '. ' + state.ticket.route;
+            nextAction = 'Follow the highlighted route to seat ' + state.ticket.seat + '. Clear the display for the next visitor.';
             drawRoute(state.ticket.seat);
           } else {
             message = 'Unknown ticket. Please ask an organiser.';
+            nextAction = 'No seat is assigned to this ticket. Ask an organiser to check it before entering.';
           }
         }
       }
       document.getElementById('guide').textContent = message;
+      document.getElementById('next-action').textContent = nextAction;
     }
 
     function showHostError() {
+      hostAvailable = false;
       document.getElementById('network').textContent = 'Host unavailable. Check Wi-Fi and server.';
       document.getElementById('reader').textContent = 'Reader status unknown';
-      document.getElementById('guide').textContent = 'Scan a ticket.';
+      document.getElementById('guide').textContent = 'Ticket guidance is unavailable.';
+      document.getElementById('next-action').textContent = 'Ask an organiser to restore the Pi hotspot and restart the server. Wait for Host connected, then scan your ticket again.';
       removeRoute();
     }
 
