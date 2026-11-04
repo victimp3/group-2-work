@@ -5,7 +5,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 // Only Group 2 loads ticket assignments. Restart after changing this file.
-const tickets = JSON.parse(fs.readFileSync(path.join(__dirname, 'tickets.json')));
+// Tests can use a separate mapping without changing the group's real cards.
+const tickets = loadTickets(process.env.TICKETS_FILE || path.join(__dirname, 'tickets.json'));
 const STALE_MS = Number(process.env.STALE_MS || 10000);
 const TICKET_MS = Number(process.env.TICKET_MS || 15000);
 let reader = { seen: 0, ready: false };
@@ -50,6 +51,36 @@ function validUid(uid) {
     }
   }
   return true;
+}
+
+function loadTickets(filePath) {
+  let mapping;
+  try {
+    mapping = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch (error) {
+    throw new Error('Ticket mapping ' + filePath + ': cannot read valid JSON: ' + error.message);
+  }
+  function invalid(key, problem) {
+    throw new Error('Ticket mapping ' + filePath + ', entry "' + key + '": ' + problem);
+  }
+  if (mapping === null || typeof mapping !== 'object' || Array.isArray(mapping)) {
+    throw new Error('Ticket mapping ' + filePath + ': expected an object keyed by card UID.');
+  }
+  for (const [uid, entry] of Object.entries(mapping)) {
+    if (!validUid(uid)) {
+      invalid(uid, 'UID must contain 8, 14 or 20 uppercase hexadecimal characters.');
+    }
+    if (entry === null || typeof entry !== 'object' || Array.isArray(entry)) {
+      invalid(uid, 'expected an object with seat and route.');
+    }
+    if (typeof entry.seat !== 'string' || !/^[ABC][1-4]$/.test(entry.seat)) {
+      invalid(uid, 'seat must be on the hall map: A1–A4, B1–B4 or C1–C4.');
+    }
+    if (typeof entry.route !== 'string' || entry.route.trim().length === 0) {
+      invalid(uid, 'route must be non-empty text.');
+    }
+  }
+  return mapping;
 }
 
 // async/await allows waiting for network input without blocking Node.
@@ -139,4 +170,4 @@ if (require.main === module) {
     console.log('Local test: http://localhost:' + port);
   });
 }
-module.exports = { createServer: createServer };
+module.exports = { createServer: createServer, loadTickets: loadTickets };

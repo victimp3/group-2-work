@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test test.js"
+    "test": "node --test test.js mapping.test.js ui.test.js"
   },
   "engines": {
     "node": ">=18"

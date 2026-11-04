@@ -2,6 +2,8 @@
 // These automated checks send requests to a temporary local server.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+// Keep these sample expectations independent of the group's actual RFID cards.
+process.env.TICKETS_FILE = require('node:path').join(__dirname, 'fixtures', 'tickets.json');
 // Shorten expiry ONLY inside this test so it does not take ten seconds.
 process.env.STALE_MS = '150';
 process.env.TICKET_MS = '150';
