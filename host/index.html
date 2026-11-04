@@ -5,353 +5,234 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Group 2 · Ticket guidance</title>
   <style>
-    /* ── Reset & base ─────────────────────────────────────────────── */
+    /* ── Reset & Base ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --navy:   #0d1f35;
-      --blue:   #1461bb;
-      --blue-lt:#eef5fd;
-      --teal:   #0a9396;
-      --green:  #2a9d5c;
-      --amber:  #f4a216;
-      --red:    #c0392b;
-      --white:  #ffffff;
-      --grey-50:#f7f9fc;
-      --grey-100:#e8edf3;
-      --grey-300:#abb7c4;
-      --grey-700:#4a5568;
-      --shadow: 0 4px 20px rgba(13,31,53,.10);
-      --radius: 16px;
+      --navy:       #0d1f35;
+      --navy-light: #1e293b;
+      --blue:       #1461bb;
+      --blue-soft:  #edf4fc;
+      --green:      #15803d;
+      --green-soft: #f0fdf4;
+      --amber:      #d97706;
+      --amber-soft: #fffbeb;
+      --red:        #dc2626;
+      --red-soft:   #fef2f2;
+      --white:      #ffffff;
+      --slate-50:   #f8fafc;
+      --slate-100:  #f1f5f9;
+      --slate-200:  #e2e8f0;
+      --slate-300:  #cbd5e1;
+      --slate-600:  #475569;
+      --slate-800:  #1e293b;
+      --radius:     16px;
+      --shadow:     0 4px 20px rgba(13, 31, 53, 0.08);
     }
 
     html, body {
       height: 100%;
       width: 100%;
-      overflow: hidden;          /* full-screen kiosk: no scrollbar */
+      background: var(--slate-50);
+      color: var(--navy);
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 17px;
     }
 
     body {
-      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-      font-size: 18px;
-      background: var(--grey-50);
-      color: var(--navy);
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        "header"
-        "main"
-        "footer";
+      display: flex;
+      flex-direction: column;
       min-height: 100vh;
     }
 
-    /* ── Header bar ───────────────────────────────────────────────── */
+    /* ── Header ───────────────────────────────────────────────────── */
     header {
-      grid-area: header;
       background: var(--navy);
       color: var(--white);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 36px;
-      height: 72px;
+      padding: 0 32px;
+      height: 64px;
+      flex-shrink: 0;
       gap: 16px;
     }
 
     .header-brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     .header-logo {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       background: var(--blue);
-      border-radius: 10px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
 
-    .header-logo svg { width: 24px; height: 24px; fill: var(--white); }
-
-    header h1 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: .3px;
+    .header-logo svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--white);
     }
 
-    /* ── Status pill ──────────────────────────────────────────────── */
+    header h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .header-statuses {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Reader Status Badge */
+    .reader-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--white);
+      white-space: nowrap;
+    }
+
+    /* Network Status Pill */
     #network {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: .85rem;
+      font-size: 0.82rem;
       font-weight: 600;
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 999px;
-      background: rgba(255,255,255,.12);
+      background: rgba(255, 255, 255, 0.12);
       color: var(--white);
-      transition: background .3s, color .3s;
+      transition: background 0.3s;
       white-space: nowrap;
     }
 
     #network::before {
       content: '';
-      width: 10px; height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       flex-shrink: 0;
-      background: var(--grey-300);
-      transition: background .3s;
+      background: var(--slate-300);
+      transition: background 0.3s;
     }
 
-    #network[data-ok="true"]  { background: rgba(42,157,92,.25); }
-    #network[data-ok="true"]::before  { background: #5de89e; }
-    #network[data-ok="false"] { background: rgba(192,57,43,.25); }
-    #network[data-ok="false"]::before { background: #e87b6e; }
+    #network[data-ok="true"] { background: rgba(34, 197, 94, 0.22); }
+    #network[data-ok="true"]::before { background: #4ade80; }
+    #network[data-ok="false"] { background: rgba(239, 68, 68, 0.25); }
+    #network[data-ok="false"]::before { background: #f87171; }
 
-    /* ── Main layout ──────────────────────────────────────────────── */
+    /* ── Main Unified Kiosk View ──────────────────────────────────── */
     main {
-      grid-area: main;
-      display: grid;
-      /* left panel + right map */
-      grid-template-columns: 380px 1fr;
-      gap: 24px;
-      padding: 24px 36px;
-      overflow: hidden;
-    }
-
-    /* ── Left panel ───────────────────────────────────────────────── */
-    .panel-left {
+      flex: 1;
+      padding: 20px 28px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      overflow: hidden;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
     }
 
-    /* Status card */
-    .status-card {
+    .kiosk-card {
+      width: 100%;
+      max-width: 960px;
       background: var(--white);
       border-radius: var(--radius);
-      padding: 20px 24px;
       box-shadow: var(--shadow);
+      padding: 20px 28px 16px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
-    }
-
-    .status-row {
-      display: flex;
-      align-items: flex-start;
       gap: 12px;
     }
 
-    .status-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      background: var(--grey-100);
-      transition: background .3s;
+    /* Top Heading */
+    .kiosk-header {
+      text-align: center;
     }
 
-    .status-label {
-      font-size: .78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      color: var(--grey-700);
-      margin-bottom: 2px;
-    }
-
-    .status-text {
-      font-size: .95rem;
-      font-weight: 500;
+    .kiosk-title {
+      font-size: 1.8rem;
+      font-weight: 800;
       color: var(--navy);
-      line-height: 1.4;
+      letter-spacing: -0.4px;
+      line-height: 1.15;
     }
 
-    .guide-label {
-      font-size: .78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      color: var(--grey-700);
-    }
-
-    #guide {
-      font-size: 1.05rem;
-      font-weight: 700;
-      line-height: 1.35;
-      color: var(--navy);
-    }
-
-    .next-label {
-      font-size: .78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      color: var(--grey-700);
+    .kiosk-subtitle {
+      font-size: 0.92rem;
+      color: var(--slate-600);
       margin-top: 4px;
     }
 
-    #next-action {
-      font-size: .97rem;
-      font-weight: 500;
-      color: var(--grey-700);
-      line-height: 1.55;
-    }
-
-    /* Clear button */
-    #clear-ticket {
-      background: var(--blue);
-      color: var(--white);
-      border: none;
-      border-radius: 12px;
-      padding: 16px 24px;
-      font: 700 1.05rem system-ui, sans-serif;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: background .2s, transform .1s;
-      box-shadow: 0 4px 14px rgba(20,97,187,.30);
+    /* ── SVG Seating Map ──────────────────────────────────────────── */
+    .map-container {
       width: 100%;
-      min-height: 56px;
-      touch-action: manipulation;
-    }
-
-    #clear-ticket:hover  { background: #0f4fa0; }
-    #clear-ticket:active { transform: scale(.97); }
-    #clear-ticket:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
-    #clear-ticket .btn-icon { font-size: 1.3em; }
-
-    /* ── Right: seating map ───────────────────────────────────────── */
-    .map-panel {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px 20px 0;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      overflow: hidden;
-    }
-
-    .map-title {
-      font-size: .85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .7px;
-      color: var(--grey-700);
-    }
-
-    /* "Find Your Seat" heading centred above the map */
-    .map-heading {
-      text-align: center;
-      font-size: 1.9rem;
-      font-weight: 800;
-      color: var(--navy);
-      letter-spacing: -.3px;
-      line-height: 1.1;
-    }
-
-    /* Subtitle beneath the heading */
-    .map-subtitle {
-      text-align: center;
-      font-size: .95rem;
-      color: var(--grey-700);
-      margin-top: -4px;
-      margin-bottom: 2px;
-    }
-
-    /* Status bar — horizontal strip at the bottom of the map panel */
-    .guide-card {
-      border-left: none;
-      border-top: 5px solid var(--grey-300);
-      border-radius: 0 0 var(--radius) var(--radius);
-      padding: 14px 20px;
-      display: grid;
-      grid-template-columns: auto 1fr 1px 1fr;
-      align-items: start;
-      gap: 4px 20px;
-      flex-shrink: 0;
-      transition: border-color .35s, background .35s;
-      margin: 0 -20px;
-    }
-
-    .guide-card[data-state="ready"]   { border-color: var(--blue);  background: var(--blue-lt); }
-    .guide-card[data-state="success"] { border-color: var(--green);  background: #edfbf3; }
-    .guide-card[data-state="unknown"] { border-color: var(--amber);  background: #fff9ec; }
-    .guide-card[data-state="error"]   { border-color: var(--red);    background: #fdf2f1; }
-
-    /* vertical divider between the two columns in the status bar */
-    .guide-divider {
-      grid-row: span 2;
-      align-self: stretch;
-      background: var(--grey-100);
-      width: 1px;
+      justify-content: center;
+      background: var(--slate-50);
+      border-radius: 12px;
+      border: 1px solid var(--slate-200);
+      padding: 8px;
     }
 
     svg {
       width: 100%;
-      height: 100%;
-      flex: 1;
-      min-height: 0;
+      max-width: 740px;
+      height: auto;
+      max-height: 48vh;
       display: block;
     }
 
-    /* SVG element styles */
+    .seat-group {
+      cursor: default;
+    }
+
     .seat-rect {
       fill: var(--white);
-      stroke: var(--grey-300);
+      stroke: var(--slate-300);
       stroke-width: 2;
-      rx: 8;
-      ry: 8;
-      transition: fill .3s;
+      transition: fill 0.2s, stroke 0.2s;
     }
 
-    .seat-label {
-      font: bold 15px system-ui, sans-serif;
-      fill: var(--navy);
-      text-anchor: middle;
-      dominant-baseline: middle;
-      pointer-events: none;
+    /* Highlighted Seat */
+    rect.selected {
+      fill: #ffe172 !important;
+      stroke: var(--navy) !important;
+      stroke-width: 3 !important;
     }
 
-    /* Highlighted seat */
-    .selected .seat-rect,
-    rect.selected { fill: #ffe172 !important; stroke: var(--navy) !important; stroke-width: 3 !important; }
-
-    /* Seat group hover / focus */
-    .seat-group { cursor: default; }
-
-    /* Route path */
+    /* Route Path */
     #route {
       fill: none;
       stroke: var(--blue);
-      stroke-width: 7;
+      stroke-width: 6;
       stroke-linecap: round;
       stroke-linejoin: round;
-      stroke-dasharray: 12 8;
-      opacity: .85;
+      stroke-dasharray: 10 6;
     }
 
-    /* ── Legend ───────────────────────────────────────────────── */
+    /* ── Legend ───────────────────────────────────────────────────── */
     .map-legend {
       display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      font-size: .8rem;
-      color: var(--grey-700);
+      justify-content: center;
+      gap: 24px;
+      font-size: 0.82rem;
+      color: var(--slate-600);
     }
 
     .legend-item {
@@ -362,28 +243,120 @@
     }
 
     .legend-swatch {
-      width: 16px; height: 16px;
+      width: 16px;
+      height: 16px;
       border-radius: 4px;
-      border: 2px solid var(--grey-300);
     }
 
-    .legend-swatch.selected  { background: #ffe172; border-color: var(--navy); }
-    .legend-swatch.available { background: var(--white); }
-    .legend-swatch.route     { background: var(--blue); border-color: var(--blue); border-radius: 999px; height: 4px; width: 24px; }
+    .legend-swatch.route {
+      background: var(--blue);
+      border-radius: 999px;
+      height: 4px;
+      width: 22px;
+    }
+
+    /* ── Status & Action Bar ──────────────────────────────────────── */
+    .guide-card {
+      border-radius: 12px;
+      border: 2px solid var(--slate-200);
+      border-left: 6px solid var(--slate-300);
+      padding: 12px 18px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .guide-card[data-state="ready"]   { border-left-color: var(--blue);  background: var(--blue-soft); }
+    .guide-card[data-state="success"] { border-left-color: var(--green); background: var(--green-soft); }
+    .guide-card[data-state="unknown"] { border-left-color: var(--amber); background: var(--amber-soft); }
+    .guide-card[data-state="error"]   { border-left-color: var(--red);   background: var(--red-soft); }
+
+    .guide-content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .guide-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .guide-col.status-col {
+      flex: 1.2;
+    }
+
+    .guide-col.action-col {
+      flex: 1.4;
+    }
+
+    .guide-label, .next-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--slate-600);
+    }
+
+    #guide {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--navy);
+    }
+
+    #next-action {
+      font-size: 0.88rem;
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--slate-600);
+    }
+
+    .guide-divider {
+      width: 1px;
+      height: 36px;
+      background: var(--slate-300);
+      flex-shrink: 0;
+    }
+
+    /* Clear Button — Warm Amber color, completely distinct from dark stage */
+    #clear-ticket {
+      background: var(--amber);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font: 700 0.95rem system-ui, sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.28);
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+      min-height: 48px;
+      flex-shrink: 0;
+      touch-action: manipulation;
+    }
+
+    #clear-ticket:hover { background: #b45309; }
+    #clear-ticket:active { transform: scale(0.97); }
+    #clear-ticket:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+    #clear-ticket .btn-icon { font-size: 1.15em; }
 
     /* ── Footer ───────────────────────────────────────────────────── */
     footer {
-      grid-area: footer;
       text-align: center;
-      font-size: .78rem;
-      color: var(--grey-700);
-      padding: 8px 36px 10px;
-      border-top: 1px solid var(--grey-100);
-    }
-
-    /* ── Accessibility ────────────────────────────────────────────── */
-    @media (prefers-contrast: more) {
-      :root { --navy: #000; --blue: #0040a0; }
+      font-size: 0.76rem;
+      color: var(--slate-600);
+      padding: 8px 16px 12px;
     }
   </style>
 </head>
@@ -393,7 +366,6 @@
   <header>
     <div class="header-brand">
       <div class="header-logo">
-        <!-- ticket icon -->
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M2 9a2 2 0 0 1 0-4V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1 0 4v1a2 2 0 0 1 0 4v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1a2 2 0 0 1 0-4V9z"/>
         </svg>
@@ -401,247 +373,159 @@
       <h1>Group 2 · Ticket Guidance</h1>
     </div>
 
-    <!-- Connection status pill — id="network" preserved for JS -->
-    <p id="network" role="status" aria-live="polite">Connecting…</p>
+    <div class="header-statuses">
+      <div class="reader-pill">
+        <span id="reader-icon" aria-hidden="true">📡</span>
+        <span id="reader" role="status" aria-live="polite">Reader offline</span>
+      </div>
+      <p id="network" role="status" aria-live="polite">Connecting…</p>
+    </div>
   </header>
 
-  <!-- ── Main content ─────────────────────────────────────────────── -->
+  <!-- ── Main Screen ─────────────────────────────────────────────── -->
   <main>
+    <div class="kiosk-card">
 
-    <!-- Left panel -->
-    <div class="panel-left">
-
-      <!-- Reader status -->
-      <div class="status-card">
-        <div class="status-row">
-          <div class="status-icon" id="reader-icon" aria-hidden="true">📡</div>
-          <div>
-            <div class="status-label">RFID Reader</div>
-            <!-- id="reader" preserved for JS -->
-            <p id="reader" class="status-text" role="status" aria-live="polite"></p>
-          </div>
-        </div>
+      <!-- Header -->
+      <div class="kiosk-header">
+        <h2 class="kiosk-title">Find Your Seat</h2>
+        <p class="kiosk-subtitle">Scan your RFID ticket to view your seat location and walking route</p>
       </div>
 
-      <!-- Clear button — id="clear-ticket" preserved for JS -->
-      <button id="clear-ticket" type="button">
-        <span class="btn-icon" aria-hidden="true">🔄</span>
-        Clear ticket display
-      </button>
+      <!-- Seating Map SVG (ViewBox 0 0 560 350) -->
+      <div class="map-container">
+        <svg viewBox="0 0 560 350" aria-label="Seating map with stage at front, rows A to C, center aisle, and entrance at bottom">
 
-    </div>
+          <!-- Stage (Dark Slate/Navy #1e293b, distinct from the amber Clear button) -->
+          <rect x="55" y="12" width="450" height="36" rx="8" fill="#1e293b" />
+          <text x="280" y="34" text-anchor="middle" dominant-baseline="middle"
+                font-size="15" font-family="system-ui, sans-serif" font-weight="800"
+                fill="#ffffff" letter-spacing="2">▶  STAGE</text>
 
-    <!-- Right: seating map -->
-    <div class="map-panel">
+          <!-- Column Numbers -->
+          <text x="93" y="62" text-anchor="middle" font-size="12" font-family="system-ui, sans-serif" font-weight="700" fill="#94a3b8">1</text>
+          <text x="183" y="62" text-anchor="middle" font-size="12" font-family="system-ui, sans-serif" font-weight="700" fill="#94a3b8">2</text>
+          <text x="377" y="62" text-anchor="middle" font-size="12" font-family="system-ui, sans-serif" font-weight="700" fill="#94a3b8">3</text>
+          <text x="467" y="62" text-anchor="middle" font-size="12" font-family="system-ui, sans-serif" font-weight="700" fill="#94a3b8">4</text>
 
-      <!-- "Find Your Seat" centred heading -->
-      <h2 class="map-heading">Find Your Seat</h2>
-      <p class="map-subtitle">Hold your RFID ticket near the reader to locate your seat.</p>
+          <!-- Row Labels -->
+          <text x="30" y="95" text-anchor="middle" dominant-baseline="middle" font-size="16" font-family="system-ui, sans-serif" font-weight="800" fill="#475569">A</text>
+          <text x="30" y="155" text-anchor="middle" dominant-baseline="middle" font-size="16" font-family="system-ui, sans-serif" font-weight="800" fill="#475569">B</text>
+          <text x="30" y="215" text-anchor="middle" dominant-baseline="middle" font-size="16" font-family="system-ui, sans-serif" font-weight="800" fill="#475569">C</text>
 
-      <!--
-        SVG viewBox is 700×420. All seat IDs (seat-A1 … seat-C4) are
-        preserved exactly so the existing drawRoute / removeRoute JS works.
-        The route path id="route" is also preserved.
-      -->
-      <svg viewBox="0 0 700 420"
-           aria-label="Hall seating map with rows A to C, a centre aisle, and entrance at the bottom">
+          <!-- Center Aisle Guideline -->
+          <line x1="280" y1="56" x2="280" y2="274" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5 5" />
 
-        <!-- ── Background ──────────────────────────────────────────── -->
-        <rect x="0" y="0" width="700" height="420" fill="#f7f9fc" rx="12"/>
+          <!-- ── ROW A (y = 75, height = 40) ── -->
+          <g class="seat-group">
+            <rect id="seat-A1" class="seat-rect" x="55" y="75" width="76" height="40" rx="8" />
+            <text x="93" y="95" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">A1</text>
+          </g>
+          <g class="seat-group">
+            <rect id="seat-A2" class="seat-rect" x="145" y="75" width="76" height="40" rx="8" />
+            <text x="183" y="95" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">A2</text>
+          </g>
+          <g class="seat-group">
+            <rect id="seat-A3" class="seat-rect" x="339" y="75" width="76" height="40" rx="8" />
+            <text x="377" y="95" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">A3</text>
+          </g>
+          <g class="seat-group">
+            <rect id="seat-A4" class="seat-rect" x="429" y="75" width="76" height="40" rx="8" />
+            <text x="467" y="95" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">A4</text>
+          </g>
 
-        <!-- ── STAGE ───────────────────────────────────────────────── -->
-        <rect x="80" y="14" width="540" height="52" rx="10" fill="#1461bb"/>
-        <text x="350" y="47" text-anchor="middle" dominant-baseline="middle"
-              font="bold 20px system-ui" fill="white" font-weight="800"
-              font-size="20" font-family="system-ui, sans-serif">▶  STAGE</text>
+          <!-- ── ROW B (y = 135, height = 40) ── -->
+          <g class="seat-group">
+            <rect id="seat-B1" class="seat-rect" x="55" y="135" width="76" height="40" rx="8" />
+            <text x="93" y="155" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">B1</text>
+          </g>
+          <g class="seat-group">
+            <rect id="seat-B2" class="seat-rect" x="145" y="135" width="76" height="40" rx="8" />
+            <text x="183" y="155" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">B2</text>
+          </g>
+          <g class="seat-group">
+            <rect id="seat-B3" class="seat-rect" x="339" y="135" width="76" height="40" rx="8" />
+            <text x="377" y="155" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">B3</text>
+          </g>
+          <g class="seat-group">
+            <rect id="seat-B4" class="seat-rect" x="429" y="135" width="76" height="40" rx="8" />
+            <text x="467" y="155" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">B4</text>
+          </g>
 
-        <!-- ── Row labels ─────────────────────────────────────────── -->
-        <!-- Row A -->
-        <text x="52" y="122" text-anchor="middle" dominant-baseline="middle"
-              font-size="17" font-family="system-ui, sans-serif"
-              font-weight="700" fill="#4a5568">A</text>
-        <!-- Row B -->
-        <text x="52" y="210" text-anchor="middle" dominant-baseline="middle"
-              font-size="17" font-family="system-ui, sans-serif"
-              font-weight="700" fill="#4a5568">B</text>
-        <!-- Row C -->
-        <text x="52" y="298" text-anchor="middle" dominant-baseline="middle"
-              font-size="17" font-family="system-ui, sans-serif"
-              font-weight="700" fill="#4a5568">C</text>
+          <!-- ── ROW C (y = 195, height = 40) ── -->
+          <g class="seat-group">
+            <rect id="seat-C1" class="seat-rect" x="55" y="195" width="76" height="40" rx="8" />
+            <text x="93" y="215" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">C1</text>
+          </g>
+          <g class="seat-group">
+            <rect id="seat-C2" class="seat-rect" x="145" y="195" width="76" height="40" rx="8" />
+            <text x="183" y="215" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">C2</text>
+          </g>
+          <g class="seat-group">
+            <rect id="seat-C3" class="seat-rect" x="339" y="195" width="76" height="40" rx="8" />
+            <text x="377" y="215" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">C3</text>
+          </g>
+          <g class="seat-group">
+            <rect id="seat-C4" class="seat-rect" x="429" y="195" width="76" height="40" rx="8" />
+            <text x="467" y="215" text-anchor="middle" dominant-baseline="middle" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#0d1f35">C4</text>
+          </g>
 
-        <!-- ── Aisle divider (centre vertical) ────────────────────── -->
-        <line x1="350" y1="82" x2="350" y2="345"
-              stroke="#abb7c4" stroke-width="2" stroke-dasharray="6 5"/>
+          <!-- Route Path (starts at M 280 295 inside ENTRANCE, runs up aisle, turns to seat) -->
+          <path id="route" fill="none" stroke="#1461bb" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 6" />
 
-        <!-- ── ROW A ───────────────────────────────────────────────── -->
-        <!-- A1 -->
-        <g class="seat-group">
-          <rect id="seat-A1" x="75"  y="96" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="130" y="122" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">A1</text>
-        </g>
-        <!-- A2 -->
-        <g class="seat-group">
-          <rect id="seat-A2" x="210" y="96" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="265" y="122" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">A2</text>
-        </g>
-        <!-- A3 -->
-        <g class="seat-group">
-          <rect id="seat-A3" x="380" y="96" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="435" y="122" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">A3</text>
-        </g>
-        <!-- A4 -->
-        <g class="seat-group">
-          <rect id="seat-A4" x="515" y="96" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="570" y="122" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">A4</text>
-        </g>
+          <!-- Entrance Box (x=195 to 365, y=275 to 315; center is 280, 295) -->
+          <rect x="195" y="275" width="170" height="40" rx="8" fill="#0d1f35" />
+          <text x="280" y="295" text-anchor="middle" dominant-baseline="middle"
+                font-size="14" font-family="system-ui, sans-serif" font-weight="700"
+                fill="#ffffff" letter-spacing="1">↑  ENTRANCE</text>
 
-        <!-- ── ROW B ───────────────────────────────────────────────── -->
-        <!-- B1 -->
-        <g class="seat-group">
-          <rect id="seat-B1" x="75"  y="184" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="130" y="210" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">B1</text>
-        </g>
-        <!-- B2 -->
-        <g class="seat-group">
-          <rect id="seat-B2" x="210" y="184" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="265" y="210" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">B2</text>
-        </g>
-        <!-- B3 -->
-        <g class="seat-group">
-          <rect id="seat-B3" x="380" y="184" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="435" y="210" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">B3</text>
-        </g>
-        <!-- B4 -->
-        <g class="seat-group">
-          <rect id="seat-B4" x="515" y="184" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="570" y="210" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">B4</text>
-        </g>
-
-        <!-- ── ROW C ───────────────────────────────────────────────── -->
-        <!-- C1 -->
-        <g class="seat-group">
-          <rect id="seat-C1" x="75"  y="272" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="130" y="298" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">C1</text>
-        </g>
-        <!-- C2 -->
-        <g class="seat-group">
-          <rect id="seat-C2" x="210" y="272" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="265" y="298" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">C2</text>
-        </g>
-        <!-- C3 -->
-        <g class="seat-group">
-          <rect id="seat-C3" x="380" y="272" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="435" y="298" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">C3</text>
-        </g>
-        <!-- C4 -->
-        <g class="seat-group">
-          <rect id="seat-C4" x="515" y="272" width="110" height="52" rx="8"
-                fill="white" stroke="#abb7c4" stroke-width="2"/>
-          <text x="570" y="298" text-anchor="middle" dominant-baseline="middle"
-                font-size="17" font-family="system-ui,sans-serif"
-                font-weight="700" fill="#0d1f35">C4</text>
-        </g>
-
-        <!-- ── Route path (id preserved) ──────────────────────────── -->
-        <path id="route" fill="none" stroke="#1461bb" stroke-width="7"
-              stroke-linecap="round" stroke-linejoin="round"
-              stroke-dasharray="12 8"/>
-
-        <!-- ── Entrance ────────────────────────────────────────────── -->
-        <rect x="295" y="344" width="110" height="38" rx="8" fill="#0d1f35"/>
-        <text x="350" y="363" text-anchor="middle" dominant-baseline="middle"
-              font-size="15" font-family="system-ui,sans-serif"
-              font-weight="700" fill="white">↑  ENTRANCE</text>
-
-        <!-- ── Column number hints at top ─────────────────────────── -->
-        <text x="130" y="84" text-anchor="middle" font-size="13"
-              font-family="system-ui,sans-serif" fill="#abb7c4">1</text>
-        <text x="265" y="84" text-anchor="middle" font-size="13"
-              font-family="system-ui,sans-serif" fill="#abb7c4">2</text>
-        <text x="435" y="84" text-anchor="middle" font-size="13"
-              font-family="system-ui,sans-serif" fill="#abb7c4">3</text>
-        <text x="570" y="84" text-anchor="middle" font-size="13"
-              font-family="system-ui,sans-serif" fill="#abb7c4">4</text>
-
-      </svg>
+        </svg>
+      </div>
 
       <!-- Legend -->
       <div class="map-legend">
         <div class="legend-item">
-          <div class="legend-swatch" style="background:#ffe172;border-color:#0d1f35;"></div>
-          Your seat
+          <div class="legend-swatch" style="background:#ffe172; border:2px solid #0d1f35;"></div>
+          Your Seat
         </div>
         <div class="legend-item">
           <div class="legend-swatch route"></div>
-          Your route
+          Your Route
         </div>
       </div>
 
-      <!-- Status bar — below the seat map -->
+      <!-- Status Bar with Integrated Clear Button -->
       <div class="guide-card" id="guide-card" data-state="ready">
-        <div class="guide-label">Status</div>
-        <!-- id="guide" preserved for JS -->
-        <p id="guide" role="status" aria-live="assertive">Scan a ticket.</p>
-        <div class="guide-divider"></div>
-        <div class="next-label">Next step</div>
-        <!-- id="next-action" preserved for JS -->
-        <p id="next-action">Wait for the host connection before scanning.</p>
+        <div class="guide-content">
+          <div class="guide-col status-col">
+            <div class="guide-label">Status</div>
+            <p id="guide" role="status" aria-live="assertive">Scan a ticket.</p>
+          </div>
+          <div class="guide-divider"></div>
+          <div class="guide-col action-col">
+            <div class="next-label">Next step</div>
+            <p id="next-action">Wait for the host connection before scanning.</p>
+          </div>
+        </div>
+        <button id="clear-ticket" type="button">
+          <span class="btn-icon" aria-hidden="true">🔄</span>
+          Clear ticket display
+        </button>
       </div>
 
     </div>
-
   </main>
 
   <!-- ── Footer ───────────────────────────────────────────────────── -->
   <footer>Group 2 · IFI7386 · Ticket Guidance Kiosk</footer>
 
-  <!-- ── JavaScript (browser only — no Arduino) ───────────────────── -->
+  <!-- ── JavaScript (runs in browser) ────────────────────────────── -->
   <script>
     // Remember the exact host scan that the user cleared on this browser.
-    // Do not compare the laptop's time with the Pi's time: clocks may differ.
     let latestTicketTime = null;
     let clearedTicketTime = null;
     let currentState = null;
     let hostAvailable = false;
-
-    // ── Seat geometry for the new SVG viewBox (700×420) ────────────
-    // drawRoute reads x/y attributes directly from each seat <rect>,
-    // so the centre calculation below just needs to match seat width/height.
-    // All seat rects are 110 wide × 52 tall; the entrance midpoint in the
-    // new viewBox is x=350, y=363 (bottom of the entrance box).
 
     function removeRoute() {
       document.getElementById('route').setAttribute('d', '');
@@ -659,7 +543,6 @@
         showHostError();
       }
     }
-    // Run our function WHEN the user clicks, not immediately on page load.
     document.getElementById('clear-ticket').addEventListener('click', clearTicket);
 
     function drawRoute(seatId) {
@@ -669,29 +552,24 @@
       }
       seat.classList.add('selected');
       // Number converts an HTML attribute (text) into a number for arithmetic.
-      const centreX = Number(seat.getAttribute('x')) + 55; // half of 110
-      const centreY = Number(seat.getAttribute('y')) + 26; // half of 52
-      // M = move to starting point; L = draw a line to the next point.
-      // Route: entrance (280,295) → merge into the centre aisle (350,295) →
-      // walk up the aisle to the correct row → turn left/right to the seat.
-      // The centre aisle runs at x=350 so the vertical leg never overlaps seats.
-      // The route origin "M 280 295" is preserved for test compatibility.
-      const route = 'M 280 295 L 350 295 L 350 ' + centreY + ' L ' + centreX + ' ' + centreY;
+      // Each seat is 76px wide and 40px high. Center offset is +38 and +20.
+      const centreX = Number(seat.getAttribute('x')) + 38;
+      const centreY = Number(seat.getAttribute('y')) + 20;
+
+      // Route starts at Entrance (280, 295), moves up the center aisle at x=280,
+      // and turns directly into the target seat. It never overlaps any other seat!
+      const route = 'M 280 295 L 280 ' + centreY + ' L ' + centreX + ' ' + centreY;
       document.getElementById('route').setAttribute('d', route);
     }
 
-    // ── Guide card state helper ─────────────────────────────────────
     function setGuideState(state) {
-      // state: 'ready' | 'success' | 'unknown' | 'error'
       const card = document.getElementById('guide-card');
       if (card) {
         card.setAttribute('data-state', state);
       }
     }
 
-    // ── Reader icon helper ──────────────────────────────────────────
     function setReaderIcon(type) {
-      // type: 'ok' | 'warn' | 'error'
       const icon = document.getElementById('reader-icon');
       if (!icon) { return; }
       const map = { ok: '✅', warn: '⚠️', error: '❌' };
@@ -758,12 +636,11 @@
 
     async function refresh() {
       try {
-        // await waits for the reply. A 2500 ms timeout avoids waiting forever.
         const response = await fetch('/api/state', { signal: AbortSignal.timeout(2500) });
         if (!response.ok) {
           throw new Error('Host returned an error');
         }
-        const state = await response.json(); // JSON text becomes a JS object.
+        const state = await response.json();
         const net = document.getElementById('network');
         net.textContent = 'Host connected';
         net.setAttribute('data-ok', 'true');
@@ -771,11 +648,10 @@
       } catch (error) {
         showHostError();
       } finally {
-        // Schedule the NEXT request only after this one finishes.
         setTimeout(refresh, 1000);
       }
     }
-    refresh(); // Start the first request now.
+    refresh();
   </script>
 </body>
 </html>
