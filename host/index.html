@@ -132,28 +132,6 @@
       overflow: hidden;
     }
 
-    /* Welcome / instruction card */
-    .welcome-card {
-      background: var(--navy);
-      border-radius: var(--radius);
-      padding: 28px 28px 24px;
-      color: var(--white);
-      box-shadow: var(--shadow);
-    }
-
-    .welcome-card h2 {
-      font-size: 2rem;
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 10px;
-    }
-
-    .welcome-card .subtitle {
-      font-size: 1rem;
-      opacity: .8;
-      line-height: 1.5;
-    }
-
     /* Status card */
     .status-card {
       background: var(--white);
@@ -200,25 +178,6 @@
       line-height: 1.4;
     }
 
-    /* Guide message card  — changes appearance per state */
-    .guide-card {
-      background: var(--white);
-      border-radius: var(--radius);
-      padding: 22px 24px;
-      box-shadow: var(--shadow);
-      border-left: 6px solid var(--grey-300);
-      transition: border-color .35s, background .35s;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .guide-card[data-state="ready"]   { border-color: var(--blue); background: var(--blue-lt); }
-    .guide-card[data-state="success"] { border-color: var(--green); background: #edfbf3; }
-    .guide-card[data-state="unknown"] { border-color: var(--amber); background: #fff9ec; }
-    .guide-card[data-state="error"]   { border-color: var(--red);   background: #fdf2f1; }
-
     .guide-label {
       font-size: .78rem;
       font-weight: 700;
@@ -228,7 +187,7 @@
     }
 
     #guide {
-      font-size: 1.3rem;
+      font-size: 1.05rem;
       font-weight: 700;
       line-height: 1.35;
       color: var(--navy);
@@ -280,7 +239,7 @@
       background: var(--white);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 20px 20px 16px;
+      padding: 20px 20px 0;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -293,6 +252,53 @@
       text-transform: uppercase;
       letter-spacing: .7px;
       color: var(--grey-700);
+    }
+
+    /* "Find Your Seat" heading centred above the map */
+    .map-heading {
+      text-align: center;
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -.3px;
+      line-height: 1.1;
+    }
+
+    /* Subtitle beneath the heading */
+    .map-subtitle {
+      text-align: center;
+      font-size: .95rem;
+      color: var(--grey-700);
+      margin-top: -4px;
+      margin-bottom: 2px;
+    }
+
+    /* Status bar — horizontal strip at the bottom of the map panel */
+    .guide-card {
+      border-left: none;
+      border-top: 5px solid var(--grey-300);
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 14px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr 1px 1fr;
+      align-items: start;
+      gap: 4px 20px;
+      flex-shrink: 0;
+      transition: border-color .35s, background .35s;
+      margin: 0 -20px;
+    }
+
+    .guide-card[data-state="ready"]   { border-color: var(--blue);  background: var(--blue-lt); }
+    .guide-card[data-state="success"] { border-color: var(--green);  background: #edfbf3; }
+    .guide-card[data-state="unknown"] { border-color: var(--amber);  background: #fff9ec; }
+    .guide-card[data-state="error"]   { border-color: var(--red);    background: #fdf2f1; }
+
+    /* vertical divider between the two columns in the status bar */
+    .guide-divider {
+      grid-row: span 2;
+      align-self: stretch;
+      background: var(--grey-100);
+      width: 1px;
     }
 
     svg {
@@ -405,12 +411,6 @@
     <!-- Left panel -->
     <div class="panel-left">
 
-      <!-- Welcome -->
-      <div class="welcome-card">
-        <h2>Find Your Seat</h2>
-        <p class="subtitle">Please hold your RFID ticket near the reader below to locate your assigned seat.</p>
-      </div>
-
       <!-- Reader status -->
       <div class="status-card">
         <div class="status-row">
@@ -423,16 +423,6 @@
         </div>
       </div>
 
-      <!-- Guide + next-action card -->
-      <div class="guide-card" id="guide-card" data-state="ready">
-        <div class="guide-label">Status</div>
-        <!-- id="guide" preserved for JS -->
-        <p id="guide" role="status" aria-live="assertive">Scan a ticket.</p>
-        <div class="next-label">Next step</div>
-        <!-- id="next-action" preserved for JS -->
-        <p id="next-action">Wait for the host connection before scanning.</p>
-      </div>
-
       <!-- Clear button — id="clear-ticket" preserved for JS -->
       <button id="clear-ticket" type="button">
         <span class="btn-icon" aria-hidden="true">🔄</span>
@@ -443,7 +433,10 @@
 
     <!-- Right: seating map -->
     <div class="map-panel">
-      <div class="map-title">Venue Seating Map</div>
+
+      <!-- "Find Your Seat" centred heading -->
+      <h2 class="map-heading">Find Your Seat</h2>
+      <p class="map-subtitle">Hold your RFID ticket near the reader to locate your seat.</p>
 
       <!--
         SVG viewBox is 700×420. All seat IDs (seat-A1 … seat-C4) are
@@ -608,11 +601,7 @@
       <!-- Legend -->
       <div class="map-legend">
         <div class="legend-item">
-          <div class="legend-swatch available"></div>
-          Available seat
-        </div>
-        <div class="legend-item">
-          <div class="legend-swatch selected"></div>
+          <div class="legend-swatch" style="background:#ffe172;border-color:#0d1f35;"></div>
           Your seat
         </div>
         <div class="legend-item">
@@ -620,6 +609,18 @@
           Your route
         </div>
       </div>
+
+      <!-- Status bar — below the seat map -->
+      <div class="guide-card" id="guide-card" data-state="ready">
+        <div class="guide-label">Status</div>
+        <!-- id="guide" preserved for JS -->
+        <p id="guide" role="status" aria-live="assertive">Scan a ticket.</p>
+        <div class="guide-divider"></div>
+        <div class="next-label">Next step</div>
+        <!-- id="next-action" preserved for JS -->
+        <p id="next-action">Wait for the host connection before scanning.</p>
+      </div>
+
     </div>
 
   </main>
@@ -671,10 +672,11 @@
       const centreX = Number(seat.getAttribute('x')) + 55; // half of 110
       const centreY = Number(seat.getAttribute('y')) + 26; // half of 52
       // M = move to starting point; L = draw a line to the next point.
-      // Entrance -> centre aisle at row -> seat. This is a fixed demo route.
-      // NOTE: The route origin (280, 295) is preserved from the original for
-      // test compatibility; the visual entrance label is a separate SVG element.
-      const route = 'M 280 295 L 280 ' + centreY + ' L ' + centreX + ' ' + centreY;
+      // Route: entrance (280,295) → merge into the centre aisle (350,295) →
+      // walk up the aisle to the correct row → turn left/right to the seat.
+      // The centre aisle runs at x=350 so the vertical leg never overlaps seats.
+      // The route origin "M 280 295" is preserved for test compatibility.
+      const route = 'M 280 295 L 350 295 L 350 ' + centreY + ' L ' + centreX + ' ' + centreY;
       document.getElementById('route').setAttribute('d', route);
     }
 
