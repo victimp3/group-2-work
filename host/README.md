@@ -4,6 +4,9 @@ This Node.js server serves the ticket display and accepts reader status and tick
 scans from the device. It keeps the latest reader and ticket state in memory; a
 restart clears that state and reloads the ticket mapping.
 
+For the complete source-based reference, see
+[technical documentation](../docs/README.md).
+
 ## Requirements
 
 - Node.js 18 or later
@@ -25,11 +28,15 @@ the display URL (`http://10.42.0.1:3000`) and a local URL
 (`http://localhost:3000`) when it starts. Set `PORT` to use another port. Stop
 the server with Ctrl+C.
 
-Run the host tests with:
+The configured full-suite command is:
 
 ```sh
 npm test
 ```
+
+The reviewed repository is missing `host/fixtures/tickets.json`, which is required
+by `test.js`. Restore that isolated fixture before expecting the full suite to
+pass. See [development and validation](../docs/development.md#automated-tests-and-current-gaps).
 
 ## Configuration
 
@@ -42,13 +49,13 @@ npm test
 
 The ticket mapping is loaded and validated when the server starts. Each property
 is a card UID containing 8, 14, or 20 uppercase hexadecimal characters. Its
-value must include a seat from rows A–F and seats 1–8, and a non-empty route:
+value must include a seat from rows A–C and seats 1–4, and a non-empty route:
 
 ```json
 {
-  "00000004": {
-    "seat": "A5",
-    "route": "Row A, Seat 5"
+  "4A4E2A28": {
+    "seat": "A2",
+    "route": "Row A, Seat 2"
   }
 }
 ```
@@ -100,7 +107,7 @@ Reports reader readiness:
 Reports a scanned UID:
 
 ```json
-{ "v": 1, "uid": "00000004" }
+{ "v": 1, "uid": "4A4E2A28" }
 ```
 
 The UID must contain 8, 14, or 20 uppercase hexadecimal characters. A matching
@@ -125,7 +132,7 @@ With the server running, use the optional helper to submit a ticket scan or
 report a reader error:
 
 ```sh
-node simulate.js ticket 00000004
+node simulate.js ticket 4A4E2A28
 node simulate.js reader-error
 ```
 
