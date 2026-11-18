@@ -12,6 +12,17 @@ The root folders contain the runnable group application. This work retains
 the existing group Git history, including the owner’s removal of the uploaded
 course-materials folder. Group members and human reviewers: to be filled in
 by the group.
+## Technical documentation
+
+See [docs/README.md](docs/README.md) for the source-based technical documentation,
+including architecture, HTTP API, setup, validation limits and troubleshooting.
+
+**Current-tree note (18 November 2026):** the firmware, fixture and earlier
+handover files named below are absent from this revision. In particular,
+`host/test.js` requires the missing `host/fixtures/tickets.json`; the full test
+command cannot pass until that fixture is restored. Historical verification and
+hardware statements below were not reproduced by the documentation review.
+Use the technical documentation for the current file inventory and sample UIDs.
 
 ## Start and test
 
@@ -25,7 +36,7 @@ node host/server.js
 Open http://localhost:3000. Stop with Ctrl+C. In another terminal:
 
 ```sh
-node host/simulate.js ticket 04A1B2C3
+node host/simulate.js ticket 4A4E2A28
 node host/simulate.js ticket FFFFFFFF
 node host/simulate.js reader-error
 ```
