@@ -1,4 +1,4 @@
-# GROUP 2 - Ticket Finder
+# Group 2 ticket host
 
 This Node.js server serves the ticket display and accepts reader status and ticket
 scans from the device. It keeps the latest reader and ticket state in memory; a
@@ -111,6 +111,13 @@ A scan also marks the reader ready.
 Invalid JSON, version, reader data, or UID returns HTTP 400 with an error code.
 Unknown paths or unsupported methods return HTTP 404. Oversized request bodies
 return HTTP 413.
+
+## Planned UI changes
+
+- Allow users to enter a ticket number manually as an alternative to scanning.
+- Add a clean, simple entry page that displays only a prompt such as “Scan your
+  ticket here to find your seat.” After a ticket is scanned, show the hall map
+  with directions to the user's seat.
 
 ## Simulate a device message
 
